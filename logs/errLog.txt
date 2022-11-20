@@ -1,0 +1,38 @@
+20221105	12:02:25	b4ff5111-bdd8-46e1-a1ba-1963ff312627	Error: not allowed by CORS
+20221105	12:03:06	a620b214-fe57-455c-bf06-1c3c0b82d224	Error: not allowed by CORS
+20221105	12:05:58	17252ec9-68f1-44c7-bf04-6921a7e04a33	Error: not allowed by CORS
+20221106	14:52:16	10a8bfa2-a33a-477f-8cc4-c9be9ffb511e	TypeError: Callback must be a function. Received undefined
+20221106	14:56:42	09f9d20a-31ae-453a-b018-e75a5f2cea32	TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received an instance of Object
+20221106	15:00:35	81448585-4123-4746-a896-aadb0b0e04be	SyntaxError: Unexpected token o in JSON at position 1
+20221106	15:01:53	17fad79e-1087-49ac-80d9-c1dbcf2e29dc	SyntaxError: Unexpected token o in JSON at position 1
+20221106	15:03:53	17029570-65fc-44f6-ba41-f4c2988692f7	TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received an instance of Object
+20221106	15:04:14	e550a235-c8b0-4089-8a24-4d79e2537d7e	SyntaxError: Unexpected token o in JSON at position 1
+20221106	15:05:44	51ead9c8-cc3c-4fc1-a957-54f484ae34ff	TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received an instance of Object
+20221106	16:00:31	02421e97-349d-41aa-b7a3-80aab7839267	TypeError: Cannot read properties of undefined (reading 'firstname')
+20221108	10:08:49	e538f63d-d0d8-4d5c-a365-c140628dc9c4	ReferenceError: nextDay is not defined
+20221108	16:51:06	3624f9ee-454b-45af-8277-a6370f50cd82	ReferenceError: User is not defined
+20221108	16:51:28	b058082b-1022-4947-a06f-cc3425469335	TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
+20221108	16:52:21	d2f97afa-bd6a-4676-adb8-49dc9e7f51ad	TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
+20221108	16:52:21	15f15955-b633-471e-8592-9c9bacc5a108	TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
+20221108	16:52:28	ad5baeea-d403-42e2-976d-fdf4abdd824d	TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
+20221108	16:52:29	454bd309-66b5-42cb-ac0f-46cad5fcca2b	TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
