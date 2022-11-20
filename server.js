@@ -63,5 +63,5 @@ mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
 });
 
-getAllCostSavings();
+//getAllCostSavings();
 //getAllUserSchedules();
