@@ -2203,3 +2203,6 @@
 20221120	16:27:27	cf46be38-b197-4940-902d-80e94d5f6d12	OPTIONS	http://localhost:3000	/savings/participantA
 20221120	16:27:27	868a42c3-24b1-4a3e-bc82-0847acb9f7be	GET	http://localhost:3000	/savings/participantA
 20221120	16:27:29	c66e0857-5430-4c8f-93e7-5ef2d0063d33	GET	http://localhost:3000	/chargelog/participantA
+20221120	16:35:11	25a16595-4df8-486f-9343-9410c9b49d10	GET	http://localhost:3000	/refresh
+20221120	16:35:11	244368cd-eef0-4fa3-97ad-f757dcae7ded	OPTIONS	http://localhost:3000	/chargelog/participantA
+20221120	16:35:12	659d80d2-2e66-4706-97ec-0b7b7bf38398	GET	http://localhost:3000	/chargelog/participantA
