@@ -157,36 +157,36 @@ const collectSchedule = async (id, startTime, endTime, username) => {
     })
   );
 
-  const response = await axios({
-    method: "post",
-    url: DATA_URL,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: authResponse.data.auth_token,
-    },
-    data: {
-      start: roundToNearest5(startTime), //formatISO(roundToNearest5(startTime))
-      "soc-at-start": 27.0,
-      "soc-unit": "kWh",
-      "soc-min": 8,
-      "soc-max": 32,
-      "roundtrip-efficiency": 0.98,
-      "soc-targets": [
-        {
-          value: 32,
-          datetime: roundToNearest5(endTime),
-        },
-      ],
-    },
-  });
-
-  console.log(response.data);
-  console.log("waiting 0.5 minutes...");
-  console.log(duration);
-
-  await delay(4 * 60 * 1000);
-
   if (`${duration}` !== "P0Y0M0DT0H0M0S") {
+    const response = await axios({
+      method: "post",
+      url: DATA_URL,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authResponse.data.auth_token,
+      },
+      data: {
+        start: roundToNearest5(startTime), //formatISO(roundToNearest5(startTime))
+        "soc-at-start": 27.0,
+        "soc-unit": "kWh",
+        "soc-min": 8,
+        "soc-max": 32,
+        "roundtrip-efficiency": 0.98,
+        "soc-targets": [
+          {
+            value: 32,
+            datetime: roundToNearest5(endTime),
+          },
+        ],
+      },
+    });
+
+    console.log(response.data);
+    console.log("waiting 0.5 minutes...");
+    console.log(duration);
+
+    await delay(30 * 60 * 1000);
+
     try {
       const schedule = await axios({
         method: "get",

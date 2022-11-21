@@ -2206,3 +2206,5 @@
 20221120	16:35:11	25a16595-4df8-486f-9343-9410c9b49d10	GET	http://localhost:3000	/refresh
 20221120	16:35:11	244368cd-eef0-4fa3-97ad-f757dcae7ded	OPTIONS	http://localhost:3000	/chargelog/participantA
 20221120	16:35:12	659d80d2-2e66-4706-97ec-0b7b7bf38398	GET	http://localhost:3000	/chargelog/participantA
+20221121	09:18:24	1fbd42b8-b061-40c0-b653-a1de7b79f88d	POST	undefined	/auth
+20221121	09:19:12	1c92a26c-2bb8-4b0a-8420-55c17377d81c	GET	undefined	/savings/miep
