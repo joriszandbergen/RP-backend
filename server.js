@@ -41,9 +41,15 @@ app.use("/employees", require("./routes/api/employees"));
 app.use("/chargelog", require("./routes/api/chargelog"));
 app.use("/savings", require("./routes/api/savings"));
 
-// const job = schedule.scheduleJob("* * * * *", function () {
-//   getAllUserSchedules();
-// });
+const job = schedule.scheduleJob("30 8 * * *", function () {
+  console.log("execute user schedules");
+  getAllUserSchedules();
+});
+
+const job2 = schedule.scheduleJob("40 8 * * *", function () {
+  console.log("execute cost savings");
+  getAllCostSavings();
+});
 
 app.all("*", (req, res) => {
   res.status(404);
