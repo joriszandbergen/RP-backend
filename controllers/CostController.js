@@ -17,6 +17,7 @@ const getYesterdaySavings = async (req, res) => {
     })
       .sort([["date", -1]])
       .limit(1);
+    console.log(result);
     if (!result) {
       return res.status(401).json("Savings still need to be calculated!");
     }
