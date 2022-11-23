@@ -41,15 +41,15 @@ app.use("/employees", require("./routes/api/employees"));
 app.use("/chargelog", require("./routes/api/chargelog"));
 app.use("/savings", require("./routes/api/savings"));
 
-// const job = schedule.scheduleJob("30 8 * * *", function () {
-//   console.log("execute user schedules");
-//   getAllUserSchedules();
-// });
+schedule.scheduleJob("30 8 * * *", function () {
+  console.log("execute user schedules");
+  getAllUserSchedules();
+});
 
-// const job2 = schedule.scheduleJob("40 8 * * *", function () {
-//   console.log("execute cost savings");
-//   getAllCostSavings();
-// });
+schedule.scheduleJob("40 8 * * *", function () {
+  console.log("execute cost savings");
+  getAllCostSavings();
+});
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -69,5 +69,5 @@ mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
 });
 
-//getAllCostSavings();
+getAllCostSavings();
 //getAllUserSchedules();
