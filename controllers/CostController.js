@@ -3,7 +3,7 @@ const User = require("../model/User");
 const CostSavings = require("../model/CostSavings");
 const endOfDay = require("date-fns/endOfDay");
 const startOfDay = require("date-fns/startOfDay");
-const subDays = require("date-fns/subDays");
+const sub = require("date-fns/sub");
 const axios = require("axios");
 
 const getYesterdaySavings = async (req, res) => {
@@ -11,8 +11,8 @@ const getYesterdaySavings = async (req, res) => {
     const result = await CostSavings.find({
       username: req.params.user,
       startDate: {
-        $gte: startOfDay(subDays(new Date(), 1)),
-        $lte: endOfDay(subDays(new Date(), 1)),
+        $gte: startOfDay(sub(new Date(), { days: 1, hours: 2 })),
+        $lte: endOfDay(sub(new Date(), { days: 1, hours: 2 })),
       },
     })
       .sort([["date", -1]])

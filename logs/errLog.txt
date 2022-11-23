@@ -36,3 +36,12 @@
     |     property 's' -> object with constructor 'Object'
     |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
     --- property 'client' closes the circle
+20221123	18:03:36	d34da58d-9033-4129-bd03-cddd550e8ea9	Error: not allowed by CORS
+20221123	18:04:16	c4db48af-c33f-46c1-b2c3-b8e45f7c945c	Error: not allowed by CORS
+20221123	18:05:24	f67051a8-ab82-475d-92c4-febd882ab038	Error: not allowed by CORS
+20221123	18:06:06	10b649de-a28a-43e7-83dd-7d0848705960	Error: not allowed by CORS
+20221123	18:06:09	5ef30faf-a1d9-479c-a5c7-b199634a62ed	Error: not allowed by CORS
+20221123	18:06:51	c4bd849c-d6fb-4d7d-bf92-ea5e4030fff7	Error: not allowed by CORS
+20221123	18:06:51	c39aa9f3-1a0a-4b82-a451-ec19df335344	Error: not allowed by CORS
+20221123	18:06:57	57fc7449-0c1f-452e-9033-5eeb7e4ee518	Error: not allowed by CORS
+20221123	18:07:00	1a3c7610-596d-4a99-b3d2-35557403090e	Error: not allowed by CORS

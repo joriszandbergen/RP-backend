@@ -185,7 +185,7 @@ const collectSchedule = async (id, startTime, endTime, username) => {
     console.log("waiting 0.5 minutes...");
     console.log(duration);
 
-    await delay(30 * 60 * 1000);
+    await delay(10 * 60 * 1000);
 
     try {
       const schedule = await axios({

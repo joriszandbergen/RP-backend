@@ -41,12 +41,12 @@ app.use("/employees", require("./routes/api/employees"));
 app.use("/chargelog", require("./routes/api/chargelog"));
 app.use("/savings", require("./routes/api/savings"));
 
-schedule.scheduleJob("30 8 * * *", function () {
+schedule.scheduleJob("51 * * * *", function () {
   console.log("execute user schedules");
   getAllUserSchedules();
 });
 
-schedule.scheduleJob("40 8 * * *", function () {
+schedule.scheduleJob("05 * * * *", function () {
   console.log("execute cost savings");
   getAllCostSavings();
 });
@@ -69,5 +69,5 @@ mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
 });
 
-getAllCostSavings();
+//getAllCostSavings();
 //getAllUserSchedules();
