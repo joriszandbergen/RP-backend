@@ -41,15 +41,15 @@ app.use("/employees", require("./routes/api/employees"));
 app.use("/chargelog", require("./routes/api/chargelog"));
 app.use("/savings", require("./routes/api/savings"));
 
-schedule.scheduleJob("51 * * * *", function () {
-  console.log("execute user schedules");
-  getAllUserSchedules();
-});
+// schedule.scheduleJob("51 * * * *", function () {
+//   console.log("execute user schedules");
+//   getAllUserSchedules();
+// });
 
-schedule.scheduleJob("05 * * * *", function () {
-  console.log("execute cost savings");
-  getAllCostSavings();
-});
+// schedule.scheduleJob("05 * * * *", function () {
+//   console.log("execute cost savings");
+//   getAllCostSavings();
+// });
 
 app.all("*", (req, res) => {
   res.status(404);

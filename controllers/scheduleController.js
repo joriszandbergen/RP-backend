@@ -54,6 +54,7 @@ const getAllSchedules = async (username, battery) => {
       {
         start: startOfDay(subDays(new Date(), 1)),
         end: endOfDay(subDays(new Date(), 1)),
+        distance: 0,
       },
     ];
   } else if (dailyChargeLogs.length === 0) {
@@ -62,6 +63,7 @@ const getAllSchedules = async (username, battery) => {
         {
           start: startOfDay(subDays(new Date(), 1)),
           end: endOfDay(subDays(new Date(), 1)),
+          distance: 0,
         },
       ];
     }
@@ -76,11 +78,13 @@ const getAllSchedules = async (username, battery) => {
           timeSpans[i] = {
             start: startOfDay(subDays(new Date(), 1)),
             end: dailyChargeLogs[i].date,
+            distance: 0,
           };
         } else if (dailyChargeLogs[start] === dailyChargeLogs.slice(-1)[0]) {
           timeSpans[i] = {
             start: dailyChargeLogs[start].date,
             end: endOfDay(subDays(new Date(), 1)),
+            distance: dailyChargeLogs[start].distanceDriven,
           };
         } else {
           console.log(
@@ -89,6 +93,7 @@ const getAllSchedules = async (username, battery) => {
           timeSpans[i] = {
             start: dailyChargeLogs[start].date,
             end: dailyChargeLogs[end].date,
+            distance: dailyChargeLogs[start].distanceDriven,
           };
         }
       }
@@ -99,6 +104,7 @@ const getAllSchedules = async (username, battery) => {
           timeSpans[i] = {
             start: dailyChargeLogs[i].date,
             end: dailyChargeLogs[i + 1].date,
+            distance: dailyChargeLogs[i].distanceDriven,
           };
         } else if (
           dailyChargeLogs[i * 2 - 1] === latestChargeLog[0] &&
@@ -107,11 +113,13 @@ const getAllSchedules = async (username, battery) => {
           timeSpans[i] = {
             start: dailyChargeLogs[i * 2 - 1].date,
             end: endOfDay(subDays(new Date(), 1)),
+            distance: dailyChargeLogs[i * 2 - 1].distanceDriven,
           };
         } else {
           timeSpans[i] = {
             start: dailyChargeLogs[i * 2 - 1].date,
             end: dailyChargeLogs[i * 2].date,
+            distance: dailyChargeLogs[i * 2 - 1].distanceDriven,
           };
         }
       }
@@ -126,13 +134,14 @@ const getAllSchedules = async (username, battery) => {
         battery,
         element.start,
         element.end,
+        element.distance,
         username
       );
     });
   }
 };
 
-const collectSchedule = async (id, startTime, endTime, username) => {
+const collectSchedule = async (id, startTime, endTime, distance, username) => {
   const AUTH_URL = "https://flexmeasures.seita.nl/api/requestAuthToken";
   const DATA_URL = `https://flexmeasures.seita.nl/api/v3_0/sensors/${id}/schedules/trigger`;
   const SCHEDULE_URL = `https://flexmeasures.seita.nl/api/v3_0/sensors/${id}/schedules`;
@@ -157,6 +166,9 @@ const collectSchedule = async (id, startTime, endTime, username) => {
     })
   );
 
+  const socAtStart = 32 - distance * 0.16;
+  console.log(`soc at start : ${socAtStart}`);
+
   if (`${duration}` !== "P0Y0M0DT0H0M0S") {
     const response = await axios({
       method: "post",
@@ -167,7 +179,7 @@ const collectSchedule = async (id, startTime, endTime, username) => {
       },
       data: {
         start: roundToNearest5(startTime), //formatISO(roundToNearest5(startTime))
-        "soc-at-start": 27.0,
+        "soc-at-start": socAtStart,
         "soc-unit": "kWh",
         "soc-min": 8,
         "soc-max": 32,
@@ -182,7 +194,7 @@ const collectSchedule = async (id, startTime, endTime, username) => {
     });
 
     console.log(response.data);
-    console.log("waiting 0.5 minutes...");
+    console.log("waiting 10 minutes...");
     console.log(duration);
 
     await delay(10 * 60 * 1000);
@@ -203,6 +215,7 @@ const collectSchedule = async (id, startTime, endTime, username) => {
         duration: schedule.data.duration,
         values: schedule.data.values,
         triggerDate: new Date().setTime(Date.now() + 60 * 60 * 1000),
+        distance: distance,
       });
       console.log(`Schedule of: ${data.username} is complete!`);
       return schedule.data;

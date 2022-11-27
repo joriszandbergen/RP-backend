@@ -8,6 +8,7 @@ const scheduleLogSchema = new Schema({
   duration: { type: String, required: true },
   values: [Number],
   triggerDate: { type: Date, required: true },
+  distance: { type: Number },
 });
 
 module.exports = mongoose.model("ScheduleLog", scheduleLogSchema);

@@ -1,5 +1,6 @@
 const ChargeLog = require("../model/ChargeLog");
 const User = require("../model/User");
+const set = require("date-fns/set");
 
 const logChargeEvent = async (req, res) => {
   console.log(req.body.isPluggedIn);
@@ -12,12 +13,16 @@ const logChargeEvent = async (req, res) => {
       .status(204)
       .json({ message: `No user found with username ${req.body.user}` });
 
+  let parts = req.body.time.split(":");
+
   try {
     const result = await ChargeLog.create({
       isPluggedIn: req.body.isPluggedIn,
       username: req.body.user,
-      date: new Date().setTime(Date.now() + 60 * 60 * 1000),
+      date: set(new Date(), { hours: parts[0], minutes: parts[1] }),
+      distanceDriven: req.body.distance,
     });
+    console.log(result);
     res.status(201).json(result);
   } catch (err) {
     console.error(err);

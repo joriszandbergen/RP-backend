@@ -4,6 +4,7 @@ const CostSavings = require("../model/CostSavings");
 const endOfDay = require("date-fns/endOfDay");
 const startOfDay = require("date-fns/startOfDay");
 const sub = require("date-fns/sub");
+const subDays = require("date-fns/subDays");
 const axios = require("axios");
 
 const getYesterdaySavings = async (req, res) => {
@@ -36,6 +37,7 @@ const getAllCostSavings = async () => {
 };
 
 const getCostSavings = async (username) => {
+  let defaultCosts = 0;
   let totalSavings = 0;
   let totalDuration = [];
   let startDate;
@@ -64,8 +66,13 @@ const getCostSavings = async (username) => {
   // ) {
   //   return console.log(`No schedule have been found for user: ${username}`);
   // }
+
   for (let i = 0; i < dailyScheduleLogs.length; i++) {
     totalDuration.push(dailyScheduleLogs[i].duration);
+
+    if (dailyScheduleLogs[i].distance) {
+      defaultCosts = defaultCosts + dailyScheduleLogs[i].distance * 0.16 * 0.4;
+    }
 
     const result = await getPriceSensorData(
       dailyScheduleLogs[i].start,
@@ -85,6 +92,7 @@ const getCostSavings = async (username) => {
   const data = await CostSavings.create({
     username: username,
     v2gCosts: totalSavings,
+    defaultCosts: defaultCosts,
     startDate: startOfDay(subDays(new Date(), 1)),
     totalDuration: totalDuration,
   });
