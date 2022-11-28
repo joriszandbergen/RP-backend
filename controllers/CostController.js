@@ -12,8 +12,8 @@ const getYesterdaySavings = async (req, res) => {
     const result = await CostSavings.find({
       username: req.params.user,
       startDate: {
-        $gte: startOfDay(sub(new Date(), { days: 1, hours: 2 })),
-        $lte: endOfDay(sub(new Date(), { days: 1, hours: 2 })),
+        $gte: startOfDay(sub(new Date(), { days: 1, hours: 3 })),
+        $lte: endOfDay(sub(new Date(), { days: 1, hours: 3 })),
       },
     })
       .sort([["date", -1]])

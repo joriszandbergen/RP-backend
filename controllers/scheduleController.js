@@ -166,8 +166,14 @@ const collectSchedule = async (id, startTime, endTime, distance, username) => {
     })
   );
 
-  const socAtStart = 32 - distance * 0.16;
+  let socAtStart = 32 - distance * 0.16;
   console.log(`soc at start : ${socAtStart}`);
+  if (socAtStart < 1) {
+    socAtStart = 0.5;
+  }
+  if (!socAtStart) {
+    socAtStart = 32;
+  }
 
   if (`${duration}` !== "P0Y0M0DT0H0M0S") {
     const response = await axios({

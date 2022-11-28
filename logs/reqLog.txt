@@ -3211,3 +3211,7 @@
 20221127	18:43:23	a6ab204d-a54e-4725-a21a-820737b49a4e	GET	https://rp-frontend.onrender.com	/refresh
 20221127	18:43:23	d1ad08d7-04c0-4a32-88ab-77be914eb7a5	OPTIONS	https://rp-frontend.onrender.com	/chargelog/miep
 20221127	18:43:23	73201084-7470-4ccd-9412-9e0acc4d18a8	GET	https://rp-frontend.onrender.com	/chargelog/miep
+20221127	18:47:23	33817625-e783-4a52-a5a1-c568689c5f78	OPTIONS	https://rp-frontend.onrender.com	/refresh
+20221127	18:47:23	0200db00-5894-4636-b711-a695468d6890	GET	https://rp-frontend.onrender.com	/refresh
+20221127	18:47:24	72fdea5e-d8f9-419b-bb54-73abc0146b63	OPTIONS	https://rp-frontend.onrender.com	/chargelog/miep
+20221127	18:47:24	81745c57-2f8d-457b-9917-d1c076040203	GET	https://rp-frontend.onrender.com	/chargelog/miep
