@@ -15,6 +15,7 @@ const connectDB = require("./config/dbConn");
 const schedule = require("node-schedule");
 const getAllUserSchedules = require("./scheduledFunctions/getAllUserSchedules");
 const { getAllCostSavings } = require("./controllers/CostController");
+const { getAllCarbonSavings } = require("./controllers/CarbonController");
 
 connectDB();
 
@@ -40,6 +41,8 @@ app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
 app.use("/chargelog", require("./routes/api/chargelog"));
 app.use("/savings", require("./routes/api/savings"));
+app.use("/carbon", require("./routes/api/carbon"));
+app.use("/planning", require("./routes/api/planning"));
 
 // schedule.scheduleJob("51 * * * *", function () {
 //   console.log("execute user schedules");
@@ -71,3 +74,4 @@ mongoose.connection.once("open", () => {
 
 //getAllCostSavings();
 //getAllUserSchedules();
+//getAllCarbonSavings();

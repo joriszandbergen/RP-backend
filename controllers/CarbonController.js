@@ -1,15 +1,15 @@
 const ScheduleLog = require("../model/ScheduleLog");
 const User = require("../model/User");
-const CostSavings = require("../model/CostSavings");
+const CarbonSavings = require("../model/CarbonSavings");
 const endOfDay = require("date-fns/endOfDay");
 const startOfDay = require("date-fns/startOfDay");
 const sub = require("date-fns/sub");
 const subDays = require("date-fns/subDays");
 const axios = require("axios");
 
-const getYesterdaySavings = async (req, res) => {
+const getYesterdayCarbonSavings = async (req, res) => {
   try {
-    const result = await CostSavings.find({
+    const result = await CarbonSavings.find({
       username: req.params.user,
       startDate: {
         $gte: startOfDay(sub(new Date(), { days: 1, hours: 3 })),
@@ -28,18 +28,19 @@ const getYesterdaySavings = async (req, res) => {
   }
 };
 
-const getAllCostSavings = async () => {
+const getAllCarbonSavings = async () => {
   const allUsers = await User.find();
   for (i = 0; i < allUsers.length; i++) {
-    await getCostSavings(allUsers[i].username);
+    await getCarbonSavings(allUsers[i].username);
     console.log(`loop: ${i}`);
   }
 };
 
-const getCostSavings = async (username) => {
-  let defaultCosts = 0;
+const getCarbonSavings = async (username) => {
+  let defaultCarbon = 0;
   let totalSavings = 0;
   let totalDuration = [];
+  let carbonData;
   let startDate;
 
   const dailyScheduleLogs = await ScheduleLog.find({
@@ -52,7 +53,7 @@ const getCostSavings = async (username) => {
 
   console.log(dailyScheduleLogs);
 
-  const dailyPricingLogs = [];
+  const dailyCarbonLogs = [];
 
   //console.log(dailyPricingLogs);
 
@@ -68,40 +69,52 @@ const getCostSavings = async (username) => {
   // }
 
   for (let i = 0; i < dailyScheduleLogs.length; i++) {
+    let totalCharged = 0;
+
     totalDuration.push(dailyScheduleLogs[i].duration);
 
-    if (dailyScheduleLogs[i].distance) {
-      defaultCosts = defaultCosts + dailyScheduleLogs[i].distance * 0.16 * 0.4;
-    }
-
-    const result = await getPriceSensorData(
+    const result = await getCarbonSensorData(
       dailyScheduleLogs[i].start,
       dailyScheduleLogs[i].duration
     );
+
+    if (dailyScheduleLogs[i].distance > 0) {
+      defaultCarbon =
+        defaultCarbon +
+        ((dailyScheduleLogs[i].distance * 0.16) / 1000) *
+          result.find((el) => el);
+      console.log(result.find((el) => el));
+    }
 
     for (let x = 0; x < result.length; x++) {
       if (result[x]) {
         totalSavings =
           totalSavings + (dailyScheduleLogs[i].values[x] / 12) * result[x];
+      } else {
+        totalSavings =
+          totalSavings + (dailyScheduleLogs[i].values[x] / 12) * 200;
       }
     }
+
+    console.log(dailyScheduleLogs[i].distance);
+    console.log(username);
+    console.log(`total v2g carbon: ${totalSavings} kg`);
+    console.log(`total charged: ${totalCharged} MWh`);
+    console.log(`total default carbon: ${defaultCarbon} kg`);
   }
 
-  console.log(totalSavings);
-
-  const data = await CostSavings.create({
+  const data = await CarbonSavings.create({
     username: username,
-    v2gCosts: totalSavings,
-    defaultCosts: defaultCosts,
+    v2gCarbon: totalSavings,
+    defaultCarbon: defaultCarbon,
     startDate: endOfDay(sub(new Date(), { days: 1, hours: 3 })),
     totalDuration: totalDuration,
+    carbonEmissionData: carbonData,
   });
-
-  console.log(totalSavings);
   return totalSavings;
 };
 
-const getPriceSensorData = async (startTime, duration) => {
+const getCarbonSensorData = async (startTime, duration) => {
   const AUTH_URL = "https://flexmeasures.seita.nl/api/requestAuthToken";
   const DATA_URL = "https://flexmeasures.seita.nl/api/v3_0/sensors/data";
 
@@ -124,17 +137,14 @@ const getPriceSensorData = async (startTime, duration) => {
       Authorization: authResponse.data.auth_token,
     },
     params: {
-      sensor: "ea1.2022-03.nl.seita.flexmeasures:fm1.14",
+      sensor: "ea1.2022-03.nl.seita.flexmeasures:fm1.27",
       start: startTime,
       duration: duration,
       resolution: "PT5M",
-      unit: "EUR/MWh",
+      unit: "kg/MWh",
     },
   });
-
-  console.log(response.data.start);
-  console.log(response.data.duration);
   return response.data.values;
 };
 
-module.exports = { getAllCostSavings, getYesterdaySavings };
+module.exports = { getAllCarbonSavings, getYesterdayCarbonSavings };
