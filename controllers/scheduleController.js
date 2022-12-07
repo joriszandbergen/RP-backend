@@ -17,28 +17,25 @@ const roundToNearest5 = (date = new Date()) => {
 };
 
 const getAllSchedules = async (username, battery) => {
-  console.log(5);
   const dailyChargeLogs = await ChargeLog.find({
+    username: username,
     date: {
       $gte: startOfDay(subDays(new Date(), 1)),
       $lte: endOfDay(subDays(new Date(), 1)),
     },
-  });
+  }).sort({ date: 1 });
 
   const latestChargeLog = await ChargeLog.find({ username: username })
     .sort({ date: -1 })
     .limit(1);
 
-  // console.log(roundToNearest5(latestChargeLog[0].date));
-
   let timeSpans = [];
-
-  console.log(dailyChargeLogs);
-  console.log(latestChargeLog);
 
   let loopLength;
   if (!dailyChargeLogs[0]) {
     loopLength = 0;
+  } else if (dailyChargeLogs.length === 2 && dailyChargeLogs[0].isPluggedIn) {
+    loopLength = 1;
   } else if (dailyChargeLogs.length === 2) {
     loopLength = 2;
   } else if (dailyChargeLogs[0].isPluggedIn) {
@@ -47,7 +44,7 @@ const getAllSchedules = async (username, battery) => {
     loopLength = Math.floor(dailyChargeLogs.length / 2 + 1);
   }
 
-  console.log(loopLength);
+  console.log(`loop length: ${loopLength}`);
 
   if (!latestChargeLog[0]) {
     timeSpans = [
@@ -87,9 +84,6 @@ const getAllSchedules = async (username, battery) => {
             distance: dailyChargeLogs[start].distanceDriven,
           };
         } else {
-          console.log(
-            `${typeof dailyChargeLogs[start]} = ${typeof latestChargeLog[0]}`
-          );
           timeSpans[i] = {
             start: dailyChargeLogs[start].date,
             end: dailyChargeLogs[end].date,
@@ -100,34 +94,44 @@ const getAllSchedules = async (username, battery) => {
       // when the first chargelog show the car is NOT plugged in,
       // start the timespan from the time in the first chargelog
       else {
-        if (i === 0) {
+        if (i === 0 && dailyChargeLogs.length === 1) {
+          timeSpans[i] = {
+            start: dailyChargeLogs[i].date,
+            end: endOfDay(subDays(new Date(), 1)),
+            distance: dailyChargeLogs[i].distanceDriven,
+          };
+        } else if (i === 0) {
           timeSpans[i] = {
             start: dailyChargeLogs[i].date,
             end: dailyChargeLogs[i + 1].date,
             distance: dailyChargeLogs[i].distanceDriven,
           };
+          console.log(99);
         } else if (
-          dailyChargeLogs[i * 2 - 1] === latestChargeLog[0] &&
-          latestChargeLog.isPluggedIn
+          dailyChargeLogs[end] === dailyChargeLogs.slice(-1)[0] &&
+          dailyChargeLogs.slice(-1)[0].isPluggedIn
         ) {
           timeSpans[i] = {
-            start: dailyChargeLogs[i * 2 - 1].date,
+            start: dailyChargeLogs[i * 2].date,
             end: endOfDay(subDays(new Date(), 1)),
-            distance: dailyChargeLogs[i * 2 - 1].distanceDriven,
+            distance: dailyChargeLogs[i * 2].distanceDriven,
           };
+          console.log(108);
         } else {
           timeSpans[i] = {
-            start: dailyChargeLogs[i * 2 - 1].date,
-            end: dailyChargeLogs[i * 2].date,
-            distance: dailyChargeLogs[i * 2 - 1].distanceDriven,
+            start: dailyChargeLogs[i * 2].date,
+            end: dailyChargeLogs[i * 2 + 1].date,
+            distance: dailyChargeLogs[i * 2].distanceDriven,
           };
+          console.log(115);
         }
       }
-
-      console.log(timeSpans);
     }
   }
+  //console.log(dailyChargeLogs);
+  console.log(username);
   console.log(timeSpans);
+
   if (!timeSpans.start) {
     timeSpans.forEach((element) => {
       const schedule = collectSchedule(

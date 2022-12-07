@@ -34,6 +34,7 @@ const getAllCostSavings = async () => {
     await getCostSavings(allUsers[i].username);
     console.log(`loop: ${i}`);
   }
+  //getCostSavings("miep");
 };
 
 const getCostSavings = async (username) => {

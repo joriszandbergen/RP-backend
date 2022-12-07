@@ -79,11 +79,15 @@ const getCarbonSavings = async (username) => {
     );
 
     if (dailyScheduleLogs[i].distance > 0) {
-      defaultCarbon =
-        defaultCarbon +
-        ((dailyScheduleLogs[i].distance * 0.16) / 1000) *
-          result.find((el) => el);
-      console.log(result.find((el) => el));
+      if (result.find((el) => el)) {
+        defaultCarbon =
+          defaultCarbon +
+          ((dailyScheduleLogs[i].distance * 0.16) / 1000) *
+            result.find((el) => el);
+        console.log(result.find((el) => el));
+      } else {
+        defaultCarbon = ((dailyScheduleLogs[i].distance * 0.16) / 1000) * 200;
+      }
     }
 
     for (let x = 0; x < result.length; x++) {
@@ -96,11 +100,11 @@ const getCarbonSavings = async (username) => {
       }
     }
 
-    console.log(dailyScheduleLogs[i].distance);
-    console.log(username);
-    console.log(`total v2g carbon: ${totalSavings} kg`);
-    console.log(`total charged: ${totalCharged} MWh`);
-    console.log(`total default carbon: ${defaultCarbon} kg`);
+    // console.log(dailyScheduleLogs[i].distance);
+    // console.log(username);
+    // console.log(`total v2g carbon: ${totalSavings} kg`);
+    // console.log(`total charged: ${totalCharged} MWh`);
+    // console.log(`total default carbon: ${defaultCarbon} kg`);
   }
 
   const data = await CarbonSavings.create({
@@ -144,6 +148,8 @@ const getCarbonSensorData = async (startTime, duration) => {
       unit: "kg/MWh",
     },
   });
+
+  console.log(response.data);
   return response.data.values;
 };
 

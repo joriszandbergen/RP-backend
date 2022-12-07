@@ -7,7 +7,8 @@ const getAllUserSchedules = async () => {
     getAllSchedules(allUsers[i].username, allUsers[i].battery);
     console.log(`loop: ${i}`);
   }
-  console.log(allUsers);
+  //getAllSchedules("miep", 37);
+  // console.log(allUsers);
 };
 
 module.exports = getAllUserSchedules;
